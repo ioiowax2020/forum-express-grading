@@ -13,6 +13,6 @@ app.listen(port, () => {
   console.log(`Example app listening on port${port}`)
 })
 
-require('./routes')(app)
+require('./routes')(app) //最後一行
 
 module.exports = app
