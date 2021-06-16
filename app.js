@@ -4,18 +4,13 @@ const app = express()
 const port = 3000
 
 
-app.engine('hbs',
-  exphbs({
-    // helpers: multihelpers, //handlebars help
-    efaultlayout: 'main',
-    extname: '.hbs'
-  }))
-app.set('view engine', 'hbs')
+app.engine('handlebars', handlebars())
+app.set('view engine', 'handlebars')
 
 
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Example app listening on port${port}`)
 })
 
 require('./routes')(app)
