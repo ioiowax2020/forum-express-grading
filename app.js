@@ -4,6 +4,8 @@ const app = express()
 const session = require('express-session')
 const flash = require('connect-flash')
 const passport = require('./config/passport')
+const methodOverride = require('method-override')
+
 
 const port = 3000
 const db = require('./models') //引入資料庫
@@ -13,6 +15,7 @@ const db = require('./models') //引入資料庫
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 app.use(express.urlencoded({ extended: true })) //解析req.body 來自使用者的請求
+app.use(methodOverride('_method'))
 
 app.use(session({ secret: 'Minesecret', resave: false, saveUninitialized: false }))
 
