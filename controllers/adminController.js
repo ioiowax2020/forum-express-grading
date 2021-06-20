@@ -120,12 +120,22 @@ const adminController = {
           })
       })
   },
-
   getUsers: (req, res) => {
     return User.findAll({ raw: true }).then(users => {
       return res.render('admin/users', { users: users })
     })
   },
+  toggleAdmin: (req, res) => {
+    return User.findByPk(req.params.id)
+      .then(user => {
+        const isAdmin = !user.isAdmin
+        user.update({ isAdmin })
+      })
+      .then(() => {
+        req.flash('success_messages', 'Changed had been successfully!')
+        res.redirect('/admin/users')
+      })
+  }
 }
 
 module.exports = adminController
