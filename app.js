@@ -16,6 +16,7 @@ app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 app.use(express.urlencoded({ extended: true })) //解析req.body 來自使用者的請求
 app.use(methodOverride('_method'))
+app.use('/upload', express.static(__dirname + '/upload'))
 
 app.use(session({ secret: 'Minesecret', resave: false, saveUninitialized: false }))
 
