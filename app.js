@@ -8,6 +8,9 @@ const methodOverride = require('method-override')
 
 
 const port = process.env.PORT || 3000
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const db = require('./models') //引入資料庫
 
 
