@@ -1,9 +1,13 @@
+const helpers = require('../_helpers')
+
 const restController = require('../controllers/restController')
 const adminController = require('../controllers//adminController')
 const userController = require('../controllers/userController')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
-const helpers = require('../_helpers')
+const categoryController = require('../controllers/categoryController')
+
+
 
 module.exports = (app, passport) => {
 
@@ -34,15 +38,17 @@ module.exports = (app, passport) => {
   app.delete('/admin/restaurants/:id', authenticated, adminController.deleteRestaurant)
   app.get('/admin/users', authenticated, adminController.getUsers)
   app.put('/admin/users/:id/toggleAdmin', authenticated, adminController.toggleAdmin)
+  //categor
+  app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
 
 
-  
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
 
   app.get('/signin', userController.signInPage)
   app.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
   app.get('/logout', userController.logout)
+
 
 
 }
