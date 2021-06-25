@@ -24,10 +24,13 @@ module.exports = (app, passport) => {
     }
 
   }
+  //users
 
   app.get('/', authenticated, (req, res) => res.redirect('/restaurants'))
   app.get('/restaurants', authenticated, restController.getRestaurants)
+  app.get('/restaurants/:id', authenticated, restController.getRestaurant)
 
+  // admin 
   app.get('/admin', authenticatedAdmin, (req, res) => res.redirect('/admin/restaurants'))
   app.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
   app.get('/admin/restaurants/create', authenticatedAdmin, adminController.createRestaurant)
@@ -38,7 +41,9 @@ module.exports = (app, passport) => {
   app.delete('/admin/restaurants/:id', authenticated, adminController.deleteRestaurant)
   app.get('/admin/users', authenticated, adminController.getUsers)
   app.put('/admin/users/:id/toggleAdmin', authenticated, adminController.toggleAdmin)
-  //categor
+
+  //category
+
   app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
   app.post('/admin/categories', authenticated, categoryController.postCategory)
   app.get('/admin/categories/:id', authenticatedAdmin, categoryController.getCategories)
@@ -46,13 +51,12 @@ module.exports = (app, passport) => {
   app.delete('/admin/categories/:id', authenticatedAdmin, categoryController.deleteCategory)
 
 
+
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
-
   app.get('/signin', userController.signInPage)
   app.post('/signin', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
   app.get('/logout', userController.logout)
-
 
 
 }
