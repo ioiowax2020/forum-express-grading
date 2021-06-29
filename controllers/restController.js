@@ -4,7 +4,7 @@ const Category = db.Category
 const User = db.User
 const Comment = db.Comment
 const pageLimit = 10 //避免有magic number
-
+let viewCounts = 0
 
 const restController = {
   getRestaurants: (req, res) => {
@@ -65,7 +65,10 @@ const restController = {
         { model: Comment, include: [User] }
       ]
     }).then(restaurant => {
-      console.log(restaurant.toJSON())
+
+      viewCounts = viewCounts + 1
+      restaurant.update({ viewCounts: viewCounts })
+
       return res.render('restaurant', {
         restaurant: restaurant.toJSON()
       })
@@ -101,10 +104,12 @@ const restController = {
     }).then((restaurant => {
       console.log(restaurant.toJSON())
       const commentLength = restaurant.Comments.length
+      const viewCounts = restaurant.viewCounts
       return res.render('dashboard',
         {
           restaurant: restaurant.toJSON(),
-          commentLength: commentLength
+          commentLength: commentLength,
+          viewCounts: viewCounts
         })
     }))
   },
