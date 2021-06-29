@@ -15,7 +15,6 @@
       </div>
       <div class="col-md-12">
         <form action="/users/{{user.id}}/edit" method="get">
-          <input type="hidden" name="{{user.id}}">
           <button type="submit" class="btn">EDIT</button>
         </form>
       </div>
@@ -26,3 +25,22 @@
 
 <hr>
 <a href="javascript:history.back()" class="m-auto btn">回上一頁</a>
+
+<div class="row">
+
+
+  <div class="col-12">
+
+    <div class="card">
+      <div class="card-header">
+        <span>已評論過 {{commentlength}} 間餐廳 </span>
+      </div>
+      <div class="card-body">
+        {{#each user.Comments}}
+        <a href="/restaurants/{{this.Restaurant.id}}"> <img src="{{this.Restaurant.image}}" alt=""
+            style="width: 100px;margin: 5px;"></a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
