@@ -36,6 +36,8 @@ module.exports = (app, passport) => {
   app.post('/comments', authenticated, commentController.postComment)
   app.delete('/comments/:id', authenticatedAdmin, commentController.deleteComment) //admin delete comment
 
+  app.get('/users/top', authenticated, userController.getTopUser) //放在  app.get('/users/:id')前面
+
   //profileEdit
 
   app.get('/users/:id', authenticated, userController.getUser)
@@ -45,7 +47,6 @@ module.exports = (app, passport) => {
 
   app.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
   app.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
-
   app.post('/like/:restaurantId', authenticated, userController.addLike)
   app.delete('/like/:restaurantId', authenticated, userController.removeLike)
 
