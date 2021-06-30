@@ -17,7 +17,6 @@
     <p>{{ restaurant.description }}</p>
     <div class="col-md-12">
       <a href="/restaurants/{{restaurant.id}}/dashboard" class="btn btn-primary">Dashboard</a>
-
       {{#if isFavorited }}
       <form action="/favorite/{{restaurant.id}}?_method=DELETE" method="POST" style="display: contents;"><button
           type="submit" class="btn btn-danger">移除最愛</button></form>
@@ -37,6 +36,7 @@
       {{/if}}
 
     </div>
+
   </div>
 
   <hr>
