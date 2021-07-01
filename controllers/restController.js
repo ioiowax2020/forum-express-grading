@@ -4,6 +4,7 @@ const Category = db.Category
 const User = db.User
 const Comment = db.Comment
 const Like = db.Like
+const Favorite = db.Favorite
 const pageLimit = 10 //避免有magic number
 let viewCounts = 0
 
@@ -122,6 +123,32 @@ const restController = {
         })
     }))
   },
+  getTop10restaurant: (req, res) => {
+    Restaurant.findAll({
+      limit: 10,
+      include: [
+        { model: User, as: 'FavoritedUsers' },
+        { model: User, as: 'LikedUsers' },
+      ]
+    })
+      .then((restaurants => {
+        console.log('restaurant---------', restaurants)
+
+        restaurants = restaurants.map(data => ({
+          ...data.dataValues,
+          FavoritedCount: data.FavoritedUsers.length,
+          isFavorited: req.user.FavoritedRestaurants.map(d => d.id).includes(data.id)
+        }))
+
+        restaurants = restaurants.sort((a, b) => { b.FavoritedCount - a.FavoritedCount })
+        res.render('top10Restaurant',
+          {
+            restaurants: restaurants,
+
+          })
+      }))
+
+  }
 }
 
 module.exports = restController
