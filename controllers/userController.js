@@ -110,13 +110,22 @@ const userController = {
     }
   },
   addFavorite: (req, res) => {
+
     return Favorite.create({
       UserId: req.user.id,
       RestaurantId: req.params.restaurantId
-    })
-      .then((restaurant) => {
-        return res.redirect('back')
+
+    }).then((favorite) => {
+      return Restaurant.findByPk(req.params.restaurantId, {
+        include: { model: User, as: 'FavoritedUsers' }
       })
+    }).then((restaurant) => {
+
+      console.log("restaurant", restaurant.toJSON())
+      const FavoraitedCount = restaurant.FavoritedUsers.length
+      restaurant.update({ FavoraitedCount: FavoraitedCount })
+      return res.redirect('back')
+    })
   },
   removeFavorite: (req, res) => {
     return Favorite.findOne({
@@ -124,13 +133,20 @@ const userController = {
         UserId: req.user.id,
         RestaurantId: req.params.restaurantId
       }
-    })
-      .then((favorite) => {
-        favorite.destroy()
-          .then((restaurant) => {
-            return res.redirect('back')
-          })
+    }).then((favorite) => {
+      favorite.destroy()
+        .then((restaurant) => {
+          return res.redirect('back')
+        })
+    }).then(() => {
+      return Restaurant.findByPk(req.params.restaurantId, {
+        include: { model: User, as: 'FavoritedUsers' }
       })
+    }).then((restaurant) => {
+      const FavoraitedCount = restaurant.FavoritedUsers.length
+      restaurant.update({ FavoraitedCount: FavoraitedCount })
+
+    })
   },
   addLike: (req, res) => {
     return Like.create({
