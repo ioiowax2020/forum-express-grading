@@ -32,7 +32,8 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     image: DataTypes.STRING,
     CategoryId: DataTypes.INTEGER,
-    viewCounts: DataTypes.INTEGER
+    viewCounts: DataTypes.INTEGER,
+    FavoraitedCount: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Restaurant',
