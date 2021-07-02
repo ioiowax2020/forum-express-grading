@@ -13,7 +13,7 @@ const categoryService = {
           .then((category) => {
             callback({
               categories: categories,
-              category: category
+              category: category.toJSON()
             })
           })
       } else {
@@ -27,8 +27,6 @@ const categoryService = {
       callback({
         status: 'error', message: "name didn\'t exist"
       })
-      // req.flash('error_message', 'name didn\'t exist')
-      // return res.redirect('back')
     }
     return Category.create({
       name: req.body.name
@@ -37,9 +35,29 @@ const categoryService = {
         callback({
           status: 'success', message: 'category was successfully created'
         })
-        // res.redirect('/admin/categories')
       })
   },
+  putCategory: (req, res, callback) => {
+    if (!req.body.name) {
+      callback({
+        status: 'error', data: "name didn\'t exist"
+      })
+      // req.flash('error_messages', 'name didn\'t exist')
+      // return res.redirect('back')
+    } else {
+      return Category.findByPk(req.params.id)
+        .then((category) => {
+          category.update(req.body)
+            .then((category) => {
+              callback({
+                status: 'success', message: 'category was successfully created'
+              })
+              // res.redirect('/admin/categories')
+            })
+        })
+    }
+  },
+
 }
 
 module.exports = categoryService
