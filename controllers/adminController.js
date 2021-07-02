@@ -6,20 +6,15 @@ const fs = require('fs')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
+const adminService = require('../services/adminService')
+
 
 const adminController = {
   getRestaurants: (req, res) => {
 
-    return Restaurant.findAll({
-      raw: true,
-      nest: true,
-      include: [Category]
+    adminService.getRestaurants(req, res, (data) => {
+      return res.render('admin/restauransts', data)
     })
-      .then(restaurants => {
-
-        return res.render('admin/restaurants',
-          { restaurants: restaurants })
-      })
   },
   createRestaurant: (req, res) => {
     Category.findAll({
@@ -73,7 +68,8 @@ const adminController = {
     }
   },
   getRestaurant: (req, res) => {
-    adminController.getRestaurant(req, res, (data) => {
+
+    adminService.getRestaurant(req, res, (data) => {
       return res.render('admin/restaurant', data)
     })
   },
@@ -138,13 +134,11 @@ const adminController = {
     }
   },
   deleteRestaurant: (req, res) => {
-    return Restaurant.findByPk(req.params.id)
-      .then((restaurant) => {
-        restaurant.destroy()
-          .then((restaurant) => {
-            res.redirect('/admin/restaurants')
-          })
-      })
+    adminService.deleteRestaurant(req, res, (data) => {
+      if (data['status'] === 'success') {
+        return res.redirect('/admin/restaurants')
+      }
+    })
   },
   getUsers: (req, res) => {
     return User.findAll({ raw: true }).then(users => {
