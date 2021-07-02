@@ -42,8 +42,6 @@ const adminService = {
       return callback({
         status: 'error', message: "name didn't exist!"
       })
-      // req.flash('error_messages', `Please fill in the Restaurant's name!`)
-      // return res.redirect('back')
     }
 
     const { file } = req
@@ -61,8 +59,6 @@ const adminService = {
 
         }).then((restaurant) => {
           callback({ status: 'success', message: "restaurant was successfully created" })
-          // req.flash('success_messages', 'restaurant was successfully created')
-          // return res.redirect('/admin/restaurants')
         })
       })
 
@@ -78,8 +74,6 @@ const adminService = {
       })
         .then((restaurants) => {
           callback({ status: 'success', message: "restaurant was successfully created" })
-          // req.flash('success_messages', `${req.body.name} has successfully created!`)
-          // res.redirect('/admin/restaurants')
         })
     }
   },
@@ -89,8 +83,6 @@ const adminService = {
       return callback({
         status: 'error', message: "name didn't exist!"
       })
-      // req.flash('error_messages', 'name dosent exist!')
-      // return res.redirect('back')
     }
     const { file } = req
     if (file) {
@@ -108,8 +100,6 @@ const adminService = {
               CategoryId: req.body.categoryId
             }).then((restaurant) => {
               callback({ status: 'success', message: "restaurant was successfully created" })
-              // req.flash('success_messages', 'restaurant was successfully to update')
-              // res.redirect('/admin/restaurants')
             })
           })
       })
@@ -128,8 +118,7 @@ const adminService = {
           })
             .then((restaurant) => {
               callback({ status: 'success', message: "restaurant was successfully created" })
-              // req.flash('success_messages', 'restaurant was successfully to update')
-              // res.redirect('/admin/restaurants')
+
             })
         })
     }
