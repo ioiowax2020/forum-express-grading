@@ -12,16 +12,23 @@ let categoryController = {
 
   },
   postCategory: (req, res) => {
-    if (!req.body.name) {
-      req.flash('error_message', 'name didn\'t exist')
-      return res.redirect('back')
-    }
-    return Category.create({
-      name: req.body.name
+    categoryService.postCategory(req, res, (data) => {
+      if (data['status'] === 'error') {
+        return req.flash('error_messages', data['message'])
+      }
+      req.flash('success_messages', data['message'])
+      res.redirect('back')
     })
-      .then((category) => {
-        res.redirect('/admin/categories')
-      })
+    // if (!req.body.name) {
+    //   req.flash('error_message', 'name didn\'t exist')
+    //   return res.redirect('back')
+    // }
+    // return Category.create({
+    //   name: req.body.name
+    // })
+    //   .then((category) => {
+    //     res.redirect('/admin/categories')
+    //   })
   },
   putCategory: (req, res) => {
     if (!req.body.name) {
