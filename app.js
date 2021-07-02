@@ -6,7 +6,7 @@ const flash = require('connect-flash')
 const passport = require('./config/passport')
 const methodOverride = require('method-override')
 const helpers = require('./_helpers')
-
+// const bodyparser = require('body-parser')
 
 
 const port = process.env.PORT || 3000
@@ -22,7 +22,9 @@ app.engine('handlebars', handlebars({
   helpers: require('./config/handlebars-helpers')
 }))
 app.set('view engine', 'handlebars')
-app.use(express.urlencoded({ extended: true })) //解析req.body 來自使用者的請求
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json()) //解析req.body 來自使用者的請求
+
 app.use(methodOverride('_method'))
 app.use('/upload', express.static(__dirname + '/upload'))
 
